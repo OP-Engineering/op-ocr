@@ -1,4 +1,5 @@
 // logging import and setup
+import type { MRZProperties } from '../types/mrzProperties';
 import { ListItemData } from '../constants/listItemData';
 
 const countryIsoJson = require('../constants/CountryIsoCodes.json');
@@ -40,7 +41,7 @@ export const checkSum = (text: string) => {
   return value;
 };
 
-export const parseMRZ = (initialLines: string[]) => {
+export const parseMRZ = (initialLines: string[]): MRZProperties | undefined => {
   let lines: string[] = [];
 
   let secondLine = initialLines[initialLines.length - 1];
@@ -96,6 +97,7 @@ export const parseMRZ = (initialLines: string[]) => {
       }
     }
   } // end (lines.length >= 3)
+
   return undefined;
 };
 
@@ -113,7 +115,10 @@ export const parseMRZ = (initialLines: string[]) => {
  * idNumber: idNumber,
  * nationality
  */
-const parse2LineMRZ = (firstRow: string, secondRow: string) => {
+const parse2LineMRZ = (
+  firstRow: string,
+  secondRow: string
+): MRZProperties | undefined => {
   let docType = extractDocType(firstRow);
   let namesFromLine: { givenNames: string[]; lastNames: string[] } =
     extractNamesFromLine(5, firstRow);
@@ -121,8 +126,8 @@ const parse2LineMRZ = (firstRow: string, secondRow: string) => {
   let lastNames: string[] = namesFromLine.lastNames;
 
   // Extract idNumber
-  let idNumber = extractIdNumber(secondRow, 0, 9);
-  if (!idNumber) {
+  let passportNumber = extractIdNumber(secondRow, 0, 9);
+  if (!passportNumber) {
     return undefined;
   }
 
@@ -133,7 +138,7 @@ const parse2LineMRZ = (firstRow: string, secondRow: string) => {
   let nationality = extractCountry(secondRow, 10, 13);
 
   // extract dateOfBirth
-  let dob = extractDateOfBirthFromLine(13, secondRow);
+  let birthDate = extractDateOfBirthFromLine(13, secondRow);
 
   // Extract gender
   // let gender = extractGender(secondRow.charAt(20), issuingCountry, docType);
@@ -141,7 +146,7 @@ const parse2LineMRZ = (firstRow: string, secondRow: string) => {
   // let gender = secondRow.charAt(20);
 
   // Extract expiration date then assign the YYYY-MM-DD string format to docExpirationDate
-  let docExpirationDate = extractDateOfExpirationFromLine(21, secondRow);
+  let expiryDate = extractDateOfExpirationFromLine(21, secondRow);
 
   return {
     docMRZ: `${firstRow}\n${secondRow}`,
@@ -149,12 +154,11 @@ const parse2LineMRZ = (firstRow: string, secondRow: string) => {
     issuingCountry: issuingCountry,
     givenNames: givenNames.join(' ').trim(),
     lastNames: lastNames.join(' ').trim(),
-    idNumber: idNumber,
+    passportNumber,
     nationality: nationality,
-    dob: dob,
-    gender: gender,
-    docExpirationDate: docExpirationDate,
-    additionalInformation: undefined, // TODO remove? (The logic for extracting additional information was deleted since we're not using it)
+    birthDate,
+    gender,
+    expiryDate,
   };
 };
 
@@ -182,7 +186,7 @@ const parse3LineMRZ = (
   firstRow: string,
   secondRow: string,
   thirdRow: string
-) => {
+): MRZProperties | undefined => {
   let docType = extractDocType(firstRow);
   let namesFromLine: { givenNames: string[]; lastNames: string[] } =
     extractNamesFromLine(0, thirdRow);
@@ -190,8 +194,8 @@ const parse3LineMRZ = (
   let lastNames: string[] = namesFromLine.lastNames;
 
   // Extract idNumber
-  let idNumber = extractIdNumber(firstRow, 5, 14);
-  if (!idNumber) {
+  let passportNumber = extractIdNumber(firstRow, 5, 14);
+  if (!passportNumber) {
     return undefined;
   }
   // Extract issuingCountry
@@ -199,12 +203,12 @@ const parse3LineMRZ = (
   // Extract nationality
   let nationality = extractCountry(secondRow, 15, 18);
   // Extract date of birth
-  let dob = extractDateOfBirthFromLine(0, secondRow);
+  let birthDate = extractDateOfBirthFromLine(0, secondRow);
   // Extract gender
   let gender = extractGender(secondRow.charAt(7));
 
   // Extract expiration date then store that date as a string in docExpirationDate
-  let docExpirationDate = extractDateOfExpirationFromLine(8, secondRow);
+  let expiryDate = extractDateOfExpirationFromLine(8, secondRow);
   // extract additional information from first and second row
   let additionalInformation = '';
   additionalInformation =
@@ -220,11 +224,11 @@ const parse3LineMRZ = (
     issuingCountry: issuingCountry,
     givenNames: givenNames.join(' ').trim(),
     lastNames: lastNames.join(' ').trim(),
-    idNumber: idNumber,
+    passportNumber,
     nationality: nationality,
-    dob: dob,
-    gender: gender,
-    docExpirationDate: docExpirationDate,
+    birthDate,
+    gender,
+    expiryDate,
     additionalInformation: additionalInformation,
   };
 };

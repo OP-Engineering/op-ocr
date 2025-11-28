@@ -50,15 +50,15 @@ const MRZScanner: FC<PropsWithChildren<MRZScannerProps>> = ({
       return true;
     }
 
-    if (mrzResults.idNumber && idList.length < numQAChecks) {
-      mrzQACheck(idList, mrzResults.idNumber);
+    if (mrzResults.passportNumber && idList.length < numQAChecks) {
+      mrzQACheck(idList, mrzResults.passportNumber);
     }
 
-    if (mrzResults.dob && dobList.length < numQAChecks) {
-      mrzQACheck(dobList, mrzResults.dob);
+    if (mrzResults.birthDate && dobList.length < numQAChecks) {
+      mrzQACheck(dobList, mrzResults.birthDate);
     }
-    if (mrzResults.docExpirationDate && expiryList.length < numQAChecks) {
-      mrzQACheck(expiryList, mrzResults.docExpirationDate);
+    if (mrzResults.expiryDate && expiryList.length < numQAChecks) {
+      mrzQACheck(expiryList, mrzResults.expiryDate);
     }
 
     return false;

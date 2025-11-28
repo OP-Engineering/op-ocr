@@ -36,10 +36,10 @@ export type MRZProperties = {
   issuingCountry?: string;
   givenNames?: string;
   lastNames?: string;
-  idNumber?: string;
+  passportNumber?: string;
   nationality?: string;
-  dob?: string;
+  birthDate?: string;
   gender?: string;
-  docExpirationDate?: string;
+  expiryDate?: string;
   additionalInformation?: string;
 };

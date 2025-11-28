@@ -32,11 +32,11 @@ export default function App() {
             </View>
             <View style={styles.row}>
               <Text style={styles.label}>ID Number: </Text>
-              <Text style={styles.text}>{mrzResults.idNumber}</Text>
+              <Text style={styles.text}>{mrzResults.passportNumber}</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.label}>Doc Expiration: </Text>
-              <Text style={styles.text}>{mrzResults.docExpirationDate}</Text>
+              <Text style={styles.text}>{mrzResults.expiryDate}</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.label}>Last Name: </Text>
@@ -52,7 +52,7 @@ export default function App() {
             </View>
             <View style={styles.row}>
               <Text style={styles.label}>Date Of Birth: </Text>
-              <Text style={styles.text}>{mrzResults.dob}</Text>
+              <Text style={styles.text}>{mrzResults.birthDate}</Text>
             </View>
           </View>
           <Button
