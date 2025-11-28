@@ -1,4 +1,4 @@
-# OPVisionCameraMrzScanner
+# @OP-Engineering/op-ocr
 
 VisionCamera Frame Processor Plugin to detect and read MRZ data from passports using MLKit Text Recognition.
 
@@ -24,7 +24,7 @@ yarn add @op-engineering/op-ocr
 import * as React from 'react';
 
 import { StyleSheet, View } from 'react-native';
-import { MRZProperties, MRZScanner } from 'vision-camera-mrz-scanner';
+import { MRZProperties, MRZScanner } from '@op-engineering/op-ocr';
 
 export default function App() {
   return (
