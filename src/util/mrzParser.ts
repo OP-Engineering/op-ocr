@@ -1,6 +1,7 @@
 // logging import and setup
 import type { MRZProperties } from '../types/mrzProperties';
 import { ListItemData } from '../constants/listItemData';
+import type { TextBlock } from 'src/types/types';
 
 const countryIsoJson = require('../constants/CountryIsoCodes.json');
 
@@ -41,15 +42,16 @@ export const checkSum = (text: string) => {
   return value;
 };
 
-export const parseMRZ = (initialLines: string[]): MRZProperties | undefined => {
+export const parseMRZ = (blocks: TextBlock[]): MRZProperties | undefined => {
   let lines: string[] = [];
 
-  let secondLine = initialLines[initialLines.length - 1];
-  let firstLine = initialLines[initialLines.length - 2];
+  let secondLine = blocks[blocks.length - 1];
+  let firstLine = blocks[blocks.length - 2];
   // if lines.length >= 2, extract and parse two-line MRZ
-  if (initialLines && initialLines.length >= 2 && secondLine && firstLine) {
+  if (secondLine && firstLine) {
     // remove all empty spaces in each line, capitalize all letters, change all '$' to 'S'
-    initialLines.forEach((line: string) => {
+    blocks.forEach((block) => {
+      let line = block.text;
       line = line.replace(/ /g, '');
       line = line.replace(/«/g, '<<');
       line = line.toUpperCase();

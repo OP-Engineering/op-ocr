@@ -1,16 +1,10 @@
-// entry file for the application
+export { default as MRZScanner } from './components/MRZScanner';
 
-// components
-export {default as MRZCamera} from './components/MRZCamera';
-export {default as MRZScanner} from './components/MRZScanner';
-// types.ts
-export type {MRZProperties} from './types/mrzProperties';
+export type { MRZProperties } from './types/mrzProperties';
 export type {
   BoundingFrame,
   Dimensions,
-  MRZCameraProps,
   MRZFrame,
-  MRZScannerProps,
   OCRElement,
   Point,
   Rect,
@@ -20,8 +14,6 @@ export type {
   TextElement,
   TextLine,
 } from './types/types';
-export {boundingBoxAdjustToView} from './util/boundingBoxAdjustToView';
-// resolutions.ts
-export {sortFormatsByResolution} from './util/generalUtil';
-// wrapper.ts
-export {scanMRZ} from './util/wrapper';
+export { boundingBoxAdjustToView } from './util/boundingBoxAdjustToView';
+export { sortFormatsByResolution } from './util/generalUtil';
+export { scanMRZ } from './util/wrapper';

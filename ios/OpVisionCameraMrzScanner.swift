@@ -15,10 +15,7 @@ public class OpVisionCameraMrzScanner: FrameProcessorPlugin {
     for block in blocks {
       blockArray.append([
         "text": block.text,
-        // "recognizedLanguages": getRecognizedLanguages(block.recognizedLanguages),
-        // "cornerPoints": getCornerPoints(block.cornerPoints),
         "frame": getFrame(block.frame),
-        // "boundingBox": getBoundingBox(block.frame) as Any,
         "lines": getLineArray(block.lines),
       ])
     }
@@ -33,10 +30,7 @@ public class OpVisionCameraMrzScanner: FrameProcessorPlugin {
     for line in lines {
       lineArray.append([
         "text": line.text,
-        // "recognizedLanguages": getRecognizedLanguages(line.recognizedLanguages),
-        // "cornerPoints": getCornerPoints(line.cornerPoints),
         "frame": getFrame(line.frame),
-        // "boundingBox": getBoundingBox(line.frame) as Any,
         "elements": getElementArray(line.elements),
       ])
     }
@@ -51,44 +45,12 @@ public class OpVisionCameraMrzScanner: FrameProcessorPlugin {
     for element in elements {
       elementArray.append([
         "text": element.text,
-        // "cornerPoints": getCornerPoints(element.cornerPoints),
         "frame": getFrame(element.frame),
-        // "boundingBox": getBoundingBox(element.frame) as Any,
         "symbols": [],
       ])
     }
 
     return elementArray
-  }
-
-  private static func getRecognizedLanguages(_ languages: [TextRecognizedLanguage]) -> [String] {
-
-    var languageArray: [String] = []
-
-    for language in languages {
-      guard let code = language.languageCode else {
-        print("No language code exists")
-        break
-      }
-      languageArray.append(code)
-    }
-
-    return languageArray
-  }
-
-  private static func getCornerPoints(_ cornerPoints: [NSValue]) -> [[String: CGFloat]] {
-
-    var cornerPointArray: [[String: CGFloat]] = []
-
-    for cornerPoint in cornerPoints {
-      guard let point = cornerPoint as? CGPoint else {
-        print("Failed to convert corner point to CGPoint")
-        break
-      }
-      cornerPointArray.append(["x": point.x, "y": point.y])
-    }
-
-    return cornerPointArray
   }
 
   private static func getFrame(_ frameRect: CGRect) -> [String: CGFloat] {
@@ -113,46 +75,21 @@ public class OpVisionCameraMrzScanner: FrameProcessorPlugin {
     ]
   }
 
-  private static func getBoundingBox(_ rect: CGRect?) -> [String: CGFloat]? {
-    return rect.map {
-      [
-        "left": $0.minX,
-        "top": $0.maxY,
-        "right": $0.maxX,
-        "bottom": $0.minY,
-      ]
-    }
-  }
-
   public override func callback(_ frame: Frame, withArguments arguments: [AnyHashable: Any]?)
     -> Any?
   {
-
     guard CMSampleBufferGetImageBuffer(frame.buffer) != nil else {
-      // print("Failed to get image buffer from sample buffer.")
       return nil
     }
 
     let visionImage = VisionImage(buffer: frame.buffer)
-
-    // Set the orientation of visionImage to the opposite of the frame's orientation
-    // Opposite compare to the `up` orientation
-    switch frame.orientation {
-    case .left:
-      visionImage.orientation = .right
-    case .right:
-      visionImage.orientation = .left
-    case .up, .down:
-      fallthrough
-
-    default: visionImage.orientation = frame.orientation
-    }
+    visionImage.orientation = .up
 
     var result: Text
     do {
       result = try OpVisionCameraMrzScanner.textRecognizer.results(in: visionImage)
     } catch let error {
-      print("Failed to recognize text with error: \(error.localizedDescription).")
+      print("Error scanning text \(error)")
       return nil
     }
 

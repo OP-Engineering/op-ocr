@@ -6,7 +6,7 @@ const pluginName = 'scanMRZPlugin';
 
 const plugin = VisionCameraProxy.initFrameProcessorPlugin(pluginName, {});
 
-export function scanMRZ(frame: Frame): MRZFrame {
+export function scanMRZ(frame: Frame): MRZFrame | null {
   'worklet';
 
   if (plugin == null) {

@@ -8,15 +8,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {!mrzResults ? (
-        <MRZScanner
-          mrzFinalResults={(mrzFinalResults: MRZProperties) => {
-            setMrzResults(mrzFinalResults);
-          }}
-          enableMRZFeedBack={true}
-        />
-      ) : null}
-      {mrzResults ? (
+      {!mrzResults ? <MRZScanner onResults={setMrzResults} /> : null}
+      {!!mrzResults ? (
         <View style={styles.results}>
           <Text style={styles.title}>MRZ Results</Text>
           <View style={styles.resultsContainer}>
@@ -69,10 +62,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1,
   },
   results: {
     width: '90%',
