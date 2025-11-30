@@ -61,7 +61,7 @@ PODS:
     - nanopb/encode (= 2.30910.0)
   - nanopb/decode (2.30910.0)
   - nanopb/encode (2.30910.0)
-  - OpVisionCameraMrzScanner (1.0.0):
+  - OpVisionCameraMrzScanner (1.0.1):
     - GoogleMLKit/TextRecognition
     - React-Core
     - VisionCamera
@@ -2807,7 +2807,7 @@ SPEC CHECKSUMS:
   MLKitTextRecognitionCommon: c0b3a63d529296a19bce1f8bc8a513644ed4d1f6
   MLKitVision: e858c5f125ecc288e4a31127928301eaba9ae0c1
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
-  OpVisionCameraMrzScanner: 8f8135d7d138f90f537c782f2d4186fff6f6e8ad
+  OpVisionCameraMrzScanner: 3df5acfc5de5d1b68eb2eaae934ea7abf9164fd6
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RCT-Folly: 846fda9475e61ec7bcbf8a3fe81edfcaeb090669
   RCTDeprecation: 5eb1d2eeff5fb91151e8a8eef45b6c7658b6c897

@@ -83,7 +83,17 @@ public class OpVisionCameraMrzScanner: FrameProcessorPlugin {
     }
 
     let visionImage = VisionImage(buffer: frame.buffer)
-    visionImage.orientation = .up
+    switch frame.orientation {
+      case .left:
+        visionImage.orientation = .right
+      case .right:
+        visionImage.orientation = .left
+      case .up, .down:
+        fallthrough
+        
+      default: visionImage.orientation = frame.orientation
+    }
+
 
     var result: Text
     do {

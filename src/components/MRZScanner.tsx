@@ -103,7 +103,7 @@ const MRZScanner: FC<
 
         if (data.result.blocks.length > 0 && isActive) {
           const mrzResults = parseMRZ(data.result.blocks);
-          console.log(mrzResults);
+          // console.log(mrzResults);
           if (mrzResults && currentMRZMatchesPreviousMRZs(mrzResults)) {
             onResults(mrzResults);
           }
@@ -123,7 +123,8 @@ const MRZScanner: FC<
     if (!data) {
       return;
     }
-    console.log(`scan result 🟢 ${JSON.stringify(data, null, 2)}`);
+    const lines = data.result.blocks.map((b) => b.text);
+    console.log(`🟢 ${JSON.stringify(lines)}`);
 
     handleScanFunc(data);
   }, []);

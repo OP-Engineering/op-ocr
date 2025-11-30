@@ -17,5 +17,9 @@ Pod::Spec.new do |s|
     
   s.dependency "React-Core"
   s.dependency "VisionCamera"
-  s.dependency "GoogleMLKit/TextRecognition"
+  if min_ios_version_supported.to_f >= 16.0
+    s.dependency "GoogleMLKit/TextRecognition", '>= 8.0.0'
+  else
+    s.dependency "GoogleMLKit/TextRecognition"
+  end
 end
