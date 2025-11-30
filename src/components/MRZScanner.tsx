@@ -48,6 +48,10 @@ const MRZScanner: FC<
    * @param element
    */
   const mrzQACheck = (list: string[], element: string) => {
+    if (element === '') {
+      return;
+    }
+
     for (let i = 0; i < list.length; i++) {
       if (list[i] !== element) {
         list = [];
@@ -64,7 +68,6 @@ const MRZScanner: FC<
    */
   const currentMRZMatchesPreviousMRZs = (mrzResults: MRZProperties) => {
     if (
-      // docMRZQAList.length >= nu &&
       idList.length >= numQAChecks &&
       dobList.length >= numQAChecks &&
       expiryList.length >= numQAChecks
@@ -79,6 +82,7 @@ const MRZScanner: FC<
     if (mrzResults.birthDate && dobList.length < numQAChecks) {
       mrzQACheck(dobList, mrzResults.birthDate);
     }
+
     if (mrzResults.expiryDate && expiryList.length < numQAChecks) {
       mrzQACheck(expiryList, mrzResults.expiryDate);
     }
@@ -103,7 +107,6 @@ const MRZScanner: FC<
 
         if (data.result.blocks.length > 0 && isActive) {
           const mrzResults = parseMRZ(data.result.blocks);
-          // console.log(mrzResults);
           if (mrzResults && currentMRZMatchesPreviousMRZs(mrzResults)) {
             onResults(mrzResults);
           }
@@ -115,7 +118,6 @@ const MRZScanner: FC<
 
   const handleScanFunc = useRunOnJS(handleScan, []);
 
-  /* Using the useFrameProcessor hook to process the video frames. */
   const frameProcessor = useFrameProcessor((frame) => {
     'worklet';
     const data = scanMRZ(frame);
@@ -123,8 +125,6 @@ const MRZScanner: FC<
     if (!data) {
       return;
     }
-    const lines = data.result.blocks.map((b) => b.text);
-    console.log(`🟢 ${JSON.stringify(lines)}`);
 
     handleScanFunc(data);
   }, []);
